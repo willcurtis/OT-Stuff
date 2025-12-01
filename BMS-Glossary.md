@@ -1,247 +1,180 @@
 # BMS & OT Infrastructure Glossary
 
-A practical glossary of Building Management System (BMS) components and OT-network elements that network engineers commonly encounter during design, deployment, or troubleshooting.
+A practical glossary of Building Management System (BMS) and Operational Technology (OT) components that network engineers commonly encounter during design, deployment, or troubleshooting.  
+All abbreviations are expanded on first use.
 
 ---
 
 ## Core BMS Controllers
 
-### **BMS Supervisor / Head-End**
-- Central server or appliance running the BMS platform (Tridium Niagara, Schneider EBO, Siemens Desigo CC).
-- Aggregates data from field controllers.
-- Hosts graphics, trends, alarms, and APIs.
-- Often dual-NIC or VLAN-segmented on OT networks.
+### **BMS (Building Management System) Supervisor / Head-End**
+Central server or appliance running the BMS platform (e.g., Tridium Niagara, Schneider EcoStruxure Building Operation). Aggregates data from field controllers and provides graphics, alarms, trends, and APIs.
 
 ### **DDC (Direct Digital Controller)**
-- Field-level controller managing HVAC, lighting, or plant equipment.
-- Communicates using BACnet/IP, BACnet MS/TP, Modbus TCP/RTU, KNX, or proprietary protocols.
+Field-level controller managing HVAC, lighting, or plant equipment. Uses BACnet/IP, BACnet MS/TP, Modbus TCP/RTU, KNX, or proprietary protocols.
 
-### **Programmable Logic Controller (PLC)**
-- Industrial controller used for sequence control, safety logic, and plant automation.
-- Common brands: Siemens S7, Allen-Bradley, Wago.
-- Interfaces over Ethernet/IP, Profinet, Modbus TCP.
+### **PLC (Programmable Logic Controller)**
+Industrial controller for sequencing, automation, and safety logic. Interfaces via Ethernet/IP, Profinet, Modbus TCP.
 
 ---
 
 ## Field Bus & Protocol Infrastructure
 
-### **BACnet/IP Router / BBMD**
-- Bridges segmented BACnet broadcast domains.
-- BBMD allows BACnet broadcasts to traverse routed networks.
-- Common failure point in multi-VLAN BMS networks.
+### **BACnet/IP (Building Automation and Control Network over IP) Router / BBMD (BACnet Broadcast Management Device)**
+Routes BACnet broadcast traffic between network segments. Enables BACnet to traverse routed/VLAN environments.
 
-### **BACnet MS/TP to IP Gateway**
-- Converts serial MS/TP traffic to BACnet/IP.
-- Sensitive to grounding, baud rate, and cable length issues.
+### **BACnet MS/TP (Master-Slave/Token-Passing) to IP Gateway**
+Converts serial MS/TP traffic to BACnet/IP for integration. Sensitive to grounding, baud rate, and cabling distance.
 
-### **Modbus TCP/RTU Gateway**
-- Bridges Modbus RTU (RS-485) devices to Ethernet.
-- Requires correct register mapping, byte order, and function codes.
+### **Modbus TCP/RTU (Transmission Control Protocol / Remote Terminal Unit) Gateway**
+Bridges Modbus RTU devices on RS-485 to Ethernet-based Modbus TCP networks. Requires correct register maps.
 
-### **KNX/IP Router**
-- Connects KNX twisted-pair bus to IP networks.
-- Often used with lighting systems.
+### **KNX (Konnex) / KNX-IP Router**
+Router that bridges KNX building automation wiring to IP networks. Widely used in lighting and room control.
 
-### **LonWorks / LON Router**
-- Legacy protocol infrastructure for HVAC and lighting.
-- May require IP-852 routers for integration to Ethernet.
+### **LonWorks / LON (Local Operating Network) Router**
+Legacy automation protocol and associated routers. May require IP-852 interfaces for Ethernet connectivity.
 
 ---
 
 ## Sensors, Actuators, and IO
 
-### **Temperature / Humidity Sensors**
-- Feed environmental data to controllers.
-- Usually wired into DDC IO, sometimes BACnet/Modbus addressable.
-
-### **Differential Pressure Sensors**
-- Used for AHU filters, clean rooms, laboratories.
-
-### **CO₂ / VOC Sensors**
-- Dictate fresh-air strategies based on air quality.
-
-### **Motorised Dampers & Actuators**
-- Controlled via analog outputs (0–10V), relays, or BACnet/Modbus.
-
-### **Valves (2-Port, 3-Port, PICV)**
-- Used in heating/cooling circuits.
-- Controlled electrically or via actuator.
+### **CO₂ (Carbon Dioxide) / VOC (Volatile Organic Compound) Sensors**
+Provide air quality data to control ventilation rates.
 
 ### **VFD (Variable Frequency Drive)**
-- Controls fan/pump speed.
-- Frequently integrated over Modbus TCP or BACnet/IP.
+Controls the speed of motors (fans/pumps). Often integrated via Modbus TCP or BACnet/IP.
 
-### **Energy Meters**
-- Provide electrical usage data.
-- Output via Modbus RTU/TCP, M-Bus, or BACnet.
+### **PICV (Pressure Independent Control Valve)**
+Valve used in hydronic systems to maintain constant flow regardless of pressure fluctuations.
 
-### **I/O Modules**
-- Expand the number of digital or analog input/output channels on a controller.
-- Often daisy-chained using MS/TP or proprietary serial buses.
+### **I/O (Input/Output) Modules**
+Expand digital and analog points available to a controller. Connected via MS/TP or proprietary serial buses.
 
 ---
 
 ## Plant & Mechanical Equipment Interfaces
 
 ### **AHU (Air Handling Unit) Controller**
-- Controls fans, dampers, coils, filters.
-- May be standalone or integrated via DDC controller.
+Controls fans, dampers, filters, coils, and associated HVAC functions. Integrates via DDC or vendor API.
 
-### **Chiller Interface**
-- Exposes chiller operating data and controls.
-- Integration typically via BACnet/IP or Modbus TCP.
+### **CHP (Combined Heat and Power) Interface**
+Plant equipment that provides heat and power. Integration typically through Modbus TCP.
 
-### **Boiler Interface Panel**
-- Provides burner status, flow temps, faults.
-- Usually linked via relay contacts or Modbus RTU.
-
-### **BEMS Panel / Control Panel**
-- Wall-mounted enclosure housing DDCs, I/O, relays, transformers, and terminations.
-- Often includes unmanaged industrial switches or serial buses.
+### **BEMS (Building Energy Management System) Panel / Control Panel**
+Panel housing DDCs, IO modules, relays, and power supplies. May contain unmanaged industrial switches.
 
 ---
 
 ## OT Network Infrastructure (BMS Context)
 
-### **Industrial Ethernet Switch**
-- Hardened switch for panel or plant room deployment.
-- DIN-rail mount, wide temp support, often unmanaged.
-- VLAN support varies widely.
+### **NTP (Network Time Protocol) Server**
+Used for time synchronisation across controllers, gateways, and supervisory platforms.
 
-### **Serial-to-IP Converter**
-- Bridges legacy RS-232/485 equipment to modern networks.
+### **OOB (Out-of-Band) Router**
+4G/5G industrial router for remote access to isolated BMS networks.
 
-### **4G/5G Industrial Router**
-- Provides out-of-band access to remote BMS assets.
-- Often isolated by firewall policy.
+### **UPS (Uninterruptible Power Supply)**
+Provides conditioned power and battery backup for critical BMS panels. Monitored via SNMP or Modbus.
 
-### **Time Server / NTP Appliance**
-- Critical for timestamping trends, alarms, and synchronising controllers.
-
-### **Syslog Server**
-- Stores controller and gateway logs for troubleshooting.
-
-### **OT Firewall**
-- Segments BMS networks from IT networks.
-- Enforces protocol-aware rules for BACnet, Modbus, and proprietary systems.
+### **PDU (Power Distribution Unit)**
+Supplies electrical power to control panels; may provide metering via Modbus TCP.
 
 ---
 
 ## Lighting & Room Control Systems
 
-### **DALI Gateway**
-- Converts DALI (lighting bus) to BACnet/IP or Modbus.
-- Used for dimming, ballasts, and emergency lighting.
+### **DALI (Digital Addressable Lighting Interface) Gateway**
+Connects DALI lighting bus to BACnet/IP, Modbus TCP, or KNX. Used for dimming, ballast control, and emergency lighting reporting.
 
-### **Lighting Control Processor**
-- Central controller for lighting scenes and scheduled events.
-- May expose REST, BACnet, or KNX interfaces.
+### **PIR (Passive Infrared) Occupancy Sensor**
+Detects motion to control lighting and HVAC.
 
-### **Blind / Shutter Controller**
-- Controls window blinds via relays or KNX/DALI.
-
-### **Room Controller / Occupancy Unit**
-- Manages temperature, lights, blinds, and occupancy.
-- Communicates via BACnet, KNX, or proprietary wireless.
+### **Room Controller / OCC (Occupancy) Unit**
+Integrated unit for temperature, lighting, blinds, and occupancy control.
 
 ---
 
 ## Security, Access & Life Safety Integrations
 
-### **Access Control Panel**
-- Connects door readers, locks, PIRs.
-- Integration typically Modbus or vendor API, not direct BACnet.
+### **FAP (Fire Alarm Panel)**
+Connected via Modbus, dry contacts, or vendor gateways. Usually read-only for BMS due to regulatory controls.
 
-### **CCTV NVR**
-- Sometimes integrated for status-only data (e.g., alarm triggers).
+### **NVR (Network Video Recorder)**
+Used in CCTV systems; limited integration such as alarm-trigger I/O.
 
-### **Fire Alarm Panel (FAP)**
-- Often via Modbus or relays for cause-and-effect.
-- Read-only in many jurisdictions due to regulatory constraints.
-
-### **Public Address/Voice Alarm Controller**
-- Limited integration via contact closures or relay outputs.
+### **PAC (Physical Access Control) Panel**
+Manages door access, readers, locks, and associated sensors. Integration may use REST APIs or Modbus.
 
 ---
 
 ## Power & Infrastructure Components
 
-### **UPS (Uninterruptible Power Supply)**
-- Provides clean power for BMS panels.
-- SNMP or Modbus monitoring.
+### **PSU (Power Supply Unit)**
+Provides 24V AC/DC or other required voltages for controllers and field devices.
 
-### **Power Distribution Unit (PDU)**
-- Supplies circuits to panels.
-- Sometimes metered and monitored via Modbus.
+### **M-Bus (Meter-Bus) Master / Concentrator**
+Used for utility metering systems (heat, water, electricity).
 
-### **Transformers & PSU Modules**
-- Provide low-voltage power (24V AC/DC) for controllers and IO.
-
-### **Trend/History Storage Appliance**
-- Dedicated local storage for BMS time-series data.
-- Examples: Niagara JACE, EBO SmartX, proprietary historian boxes.
+### **Historians / Trend Storage Appliances**
+Dedicated systems for storing time-series BMS data (e.g., Niagara JACE, EBO Enterprise Server).
 
 ---
 
 ## Wireless & Specialist Systems
 
-### **Wireless Sensor Gateways**
-- LoRaWAN, Zigbee, or proprietary RF.
-- Used for retrofit environments.
+### **LoRaWAN (Long Range Wide Area Network) Gateway**
+Integrates wireless sensors for temperature, humidity, IAQ, and utility data.
 
-### **People Counting Sensors**
-- Integrated via REST APIs, BACnet, or edge gateways.
+### **IAQ (Indoor Air Quality) Hub**
+Multi-sensor platform (CO₂, VOC, PM2.5, temperature, humidity).
 
-### **Indoor Air Quality (IAQ) Hubs**
-- Multi-sensor platforms providing CO₂, PM2.5, VOC, humidity, temp.
-
-### **Metering Concentrator**
-- Aggregates pulse inputs, M-Bus, or Modbus meters for export to BMS.
+### **UWB (Ultra-Wideband) / BLE (Bluetooth Low Energy) Sensors**
+Used in people-counting, asset tracking, and presence detection.
 
 ---
 
 ## Documentation & Operational Artifacts
 
-### **Points List (I/O Schedule)**
-- Defines every sensor, actuator, and software point the BMS monitors.
-
-### **Sequence of Operations (SoO)**
-- Textual specification of how plant and systems should behave.
-
-### **Network Architecture Diagram**
-- VLANs, routing, firewalls, BACnet segment boundaries.
+### **SoO (Sequence of Operations)**
+Specifies how the HVAC or building system should behave logically.
 
 ### **As-Built Drawings**
-- Final electrical, mechanical, and control wiring diagrams.
+Final diagrams representing electrical, mechanical, network, and wiring layouts after installation.
+
+### **I/O Schedule (Input/Output Schedule)**
+Defines each point (sensor, actuator, software point) and its mapping.
 
 ---
 
 ## Integration Interfaces
 
-### **REST / SOAP API Endpoint**
-- Used for integrating BMS with CAFM, FM, analytics platforms.
+### **API (Application Programming Interface)**
+Used for integrating BMS with FM, CAFM, analytics, and external applications.
 
-### **MQTT Broker**
-- Sometimes used for modern IoT-style BMS devices.
+### **MQTT (Message Queuing Telemetry Transport) Broker**
+Lightweight messaging protocol for IoT-style BMS devices.
 
-### **OPC/OPC-UA Server**
-- Common integration point for SCADA and analytics systems.
+### **OPC (OLE for Process Control) / OPC-UA (Open Platform Communications Unified Architecture) Server**
+Standard interoperability interface for industrial and SCADA systems.
+
+### **SCADA (Supervisory Control and Data Acquisition) Interface**
+Provides central supervisory control for plant and industrial automation systems.
 
 ---
 
 ## Legacy & Vendor-Specific Items
 
+### **JACE (Java Application Control Engine)**
+Tridium Niagara controller/gateway used to normalise protocols such as BACnet, Modbus, KNX, and LON.
+
+### **Trend IQ (Intelligent Quantifier) Controllers**
+Legacy BMS controllers using Trend LAN or BACnet/IP.
+
 ### **Proprietary Fieldbus Gateways**
-- Converts closed vendor protocols into Modbus or BACnet.
-
-### **JACE / Supervisor Station**
-- Tridium Niagara gateways used to normalise multiple protocols.
-
-### **Trend IQ Controllers**
-- Legacy UK building control system.
-- Uses Trend LAN, Ethernet, or BACnet.
+Vendor-specific converters bridging closed protocols to BACnet, Modbus, or MQTT.
 
 ---
 
 # Contributing
-Feel free to propose additional components, particularly from specialist domains such as water treatment, CHP systems, smart-grid interfaces, and vertical transport (lifts).
+Feel free to suggest additional components, especially from specialist systems such as water treatment, CHP, smart-grid interfaces, and vertical transport (lifts).
