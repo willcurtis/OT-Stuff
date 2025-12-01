@@ -230,3 +230,81 @@ East–west controls drastically reduce the impact of misconfigured BACnet, rogu
 # ACL and Rule Templates (Text-Only Examples)
 
 ### BACnet/IP Example ACL
+
+permit udp host 10.20.10.10 eq 47808 host 10.20.30.21
+permit udp host 10.20.30.21 host 10.20.10.10 eq 47808
+deny udp any any eq 47808
+
+### Modbus Example ACL
+
+permit tcp host 10.20.10.10 any eq 502
+deny tcp any any eq 502
+
+### KNX Example ACL
+
+permit udp host 10.20.40.10 eq 3671 host 10.20.10.50
+deny udp any host 224.0.23.12
+
+### Vendor Access ACL
+
+permit tcp host 10.20.70.5 host 10.20.10.10 eq 443
+deny ip 10.20.70.0 0.0.0.255 10.20.0.0 0.0.255.255
+
+---
+
+# Supervisory Traffic Flow Requirements
+
+### Supervisors Require:
+- Outbound BACnet/IP  
+- Outbound Modbus TCP  
+- Outbound OPC-UA subscription traffic  
+- Inbound notifications (COV, OPC-UA events)  
+- NTP  
+- DNS  
+- Syslog (optional)  
+- Access to trend/DB storage  
+
+### Supervisors Do **Not** Require:
+- East–west BACnet  
+- Access from vendor devices  
+- Access from corporate LAN directly  
+- Unrestricted internet access  
+
+---
+
+# Common Routing and Firewall Failures
+
+### 1. BACnet not visible across VLANs  
+Cause: no BBMD, wrong subnet masks, or blocked broadcasts.
+
+### 2. Modbus devices marked offline  
+Cause: firewall idle timeout, overloaded gateways, incorrect ACL.
+
+### 3. KNX multicast flooding  
+Cause: VLAN misconfiguration or IGMP snooping disabled.
+
+### 4. OPC-UA handshake failure  
+Cause: TLS interception, expired certificates, blocked ports.
+
+### 5. Controller-to-controller chatter  
+Cause: flat networks with no east–west restrictions.
+
+### 6. Vendor access bypassing OT firewalls  
+Cause: poorly configured VPNs or incorrectly bridged vendor VLANs.
+
+---
+
+# Summary
+
+Routing and firewall design underpin reliable and secure OT/BMS infrastructures. BMS networks contain insecure legacy protocols, multicast and broadcast traffic, and timing-sensitive industrial communications—making segmentation and firewall control essential.
+
+Key principles:
+
+- Keep routing simple and predictable  
+- Contain broadcasts and multicast  
+- Enforce strict east–west and north–south filtering  
+- Treat Modbus and BACnet as untrusted traffic  
+- Use firewalls and ACLs to enforce least privilege  
+- Apply strong controls at the OT–IT boundary  
+
+A well-structured routing and firewall design dramatically reduces operational risk and improves system stability across the OT environment.
